@@ -59,19 +59,55 @@ Shift+Tab+Tab  # 進入 Plan Mode
 
 ### 4. Ralph Loop（長時間自主任務）
 
+基於 [Ralph Wiggum 插件](https://github.com/anthropics/claude-code/tree/main/plugins/ralph-wiggum)，透過 Stop hook 創建迭代開發循環。
+
 ```bash
-/ralph-loop:ralph-loop "實作功能 X，完成後輸出 <promise>COMPLETE</promise>" \
-  --max-iterations 30 \
-  --completion-promise "COMPLETE"
+# 根據計劃實作
+/ralph-loop:ralph-loop 根據計劃實作 --max-iterations 30 --completion-promise "COMPLETE"
+
+# 多階段任務
+/ralph-loop:ralph-loop "Phase 1: 用戶認證 (JWT, 測試)
+Phase 2: 產品目錄 (列表/搜索)
+Phase 3: 購物車功能
+
+完成後輸出 <promise>COMPLETE</promise>" --max-iterations 50 --completion-promise "COMPLETE"
+
+# TDD 開發
+/ralph-loop:ralph-loop "實作功能 X：
+1. 寫失敗的測試
+2. 實作功能
+3. 執行測試
+4. 若失敗則修復
+5. 重構
+6. 完成後輸出 <promise>COMPLETE</promise>" --max-iterations 20 --completion-promise "COMPLETE"
 
 # 取消
 /ralph-loop:cancel-ralph
+
+# 查看說明
+/ralph-loop:help
 ```
 
+**核心概念：**
+- 提示詞在迭代間保持不變
+- Claude 的工作持久保存在文件和 git 歷史中
+- 每次迭代都能看到先前的修改
+- Claude 透過讀取自身過去的工作自主改進
+
 **最佳實踐：**
-- 永遠設定 `--max-iterations`
-- 明確定義完成條件
-- 用測試作為驗證機制
+- 永遠設定 `--max-iterations`（建議 20-50）作為安全機制
+- 定義清晰的完成標準
+- 設定增量目標（Phase 1, 2, 3...）
+- 用測試作為自動驗證機制
+
+**適合場景：**
+- 有明確成功標準的任務
+- 需要迭代優化的任務（如通過測試）
+- 有自動驗證的任務（測試、linter）
+
+**不適合：**
+- 需要人工判斷或設計決策的任務
+- 成功標準不明確的任務
 
 ## 自動化 Hooks
 
