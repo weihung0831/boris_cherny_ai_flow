@@ -1,0 +1,65 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php artisan:*)",
+      "Bash(composer:*)",
+      "Bash(npm:*)",
+      "Bash(npm run:*)",
+      "Bash(./vendor/bin/pint:*)",
+      "Bash(git:*)",
+      "Bash(gh:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(mkdir:*)",
+      "Bash(rm:*)",
+      "Bash(rm .claude/ralph-loop.local.md)",
+      "Bash(test -f .claude/ralph-loop.local.md:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Skill(ralph-loop:ralph-loop)",
+      "Bash(php -l:*)",
+      "Bash(grep:*)",
+      "Bash(__NEW_LINE__ echo \"\")",
+      "Bash(find:*)",
+      "Bash(**/ralph-loop/**/scripts/*.sh:*)",
+      "Bash(RALPH_LOOP_ARGS=:*)",
+      "Bash(RALPH_LOOP_ARGS=*)"
+    ],
+    "deny": [
+      "Bash(rm -rf /:*)",
+      "Bash(rm -rf ~:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "memory"
+  ],
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/verify-after-edit.sh",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/notify-complete.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "ralph-loop@claude-plugins-official": true
+  }
+}

@@ -11,7 +11,12 @@ php artisan migrate:fresh --seed  # 重建資料庫
 
 ## Slash Commands
 
-- `/commit-push-pr` - 格式化 → 提交 → 推送 → 建立 PR
+- `/commit-push-pr` - 格式化 → 提交 → 推送 → 建立 PR |
+| `/squash-commits` | 將多個 commits 整理成一條 |
+| `/merge-pr` | 在 main 分支合併 PR |
+| `/translate-to-chinese` | 翻譯成繁體中文 |
+| `/translate-to-english` | 翻譯成英文 |
+| `/ralph` | 智能任務執行器 |
 
 ## 架構規則
 

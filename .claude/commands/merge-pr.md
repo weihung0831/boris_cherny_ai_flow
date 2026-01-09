@@ -5,4 +5,4 @@
 ## 步驟
 
 1. 詢問用戶 PR 編號
-2. 執行 `gh pr merge <number> --merge --delete-branch`
+2. 執行 `gh pr merge <number> --merge`
